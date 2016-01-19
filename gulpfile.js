@@ -21,12 +21,24 @@ const logTime = (startTime => {
 //--------------------------------------------------------------------------\\
 //     Load gulp                                                            \\
 //--------------------------------------------------------------------------\\
-const gulp = require('gulp');
-const babel = require('gulp-babel');
-const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
 
-gulp.task('build', () => {
+const
+    gulp = require('gulp'),
+    rename = require('gulp-rename');
+
+const
+    babel = require('gulp-babel'),
+    uglify = require('gulp-uglify');
+
+const
+    sass = require('gulp-sass'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    cssnano = require('cssnano');
+
+
+
+gulp.task('build:js', () => {
     return gulp.src('src/*.jsx')
         .pipe(babel({
             presets: ['es2015', 'react']
@@ -44,10 +56,23 @@ gulp.task('build', () => {
         .pipe(gulp.dest('dist'))
 });
 
-gulp.task('watch', ['build'], () => {
-    gulp.watch('src/*.jsx', ['build']);
+gulp.task('build:css', () => {
+    return gulp.src('src/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([
+            autoprefixer({ browsers: ['last 2 versions'] }),
+            cssnano()
+        ]))
+        .pipe(gulp.dest('dist'))
 });
 
+
+gulp.task('watch', ['build'], () => {
+    gulp.watch('src/*.jsx', ['build:js']);
+    gulp.watch('src/*.scss', ['build:css']);
+});
+
+gulp.task('build', ['build:js', 'build:css']);
 gulp.task('default', ['build']);
 
 //Log loading time
