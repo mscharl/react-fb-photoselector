@@ -1,0 +1,30 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "variables";
+
+html {
+    font-size: 12px;
+
+    @media (min-width: 544px) {
+        font-size: 16px;
+    }
+}
+
+body {
+    background: rgb(241, 241, 241);
+}
+
+.btn-facebook {
+    color: white;
+    background-color: #3b5998;
+
+    &:hover {
+        background-color: darken(#3b5998, 5%);
+    }
+}
+
+@import "_blocks/header";
+@import "_blocks/example";
+@import "_blocks/usage";
+
+@import "../../node_modules/react-fb-photoselector/dist/msfbphotoselector";
+@import "../../node_modules/highlight.js/styles/github";
