@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>react-fb-photoselector by Michael Scharl</title>
+    <meta name="description" content="A React.JS Component for easy facebook-image-selecting">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="dist/css/styles.css">
+</head>
+<header class="app-header">
+    <div class="container">
+        <h1 class="app-header__title">react-fb-photoselector</h1>
+        <img src="dist/img/dialog.png" class="app-header__image" width="806" height="350" alt="">
+    </div>
+</header>
+<main class="app-example">
+    <h2 class="app-example__title">Try it out!</h2>
+    <div class="container">
+        <div id="example"><div data-reactid=".2967377wjy8" data-react-checksum="-2123128218"><div class="row" data-reactid=".2967377wjy8.1"><div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" data-reactid=".2967377wjy8.1.0"><button class="app-example__connect btn btn-block btn-facebook" disabled="" data-reactid=".2967377wjy8.1.0.0"><span data-reactid=".2967377wjy8.1.0.0.0"><i class="fa fa-fw fa-spin fa-spinner" data-reactid=".2967377wjy8.1.0.0.0.0"></i><span data-reactid=".2967377wjy8.1.0.0.0.1">Waiting for Facebook</span></span></button></div></div></div></div>
+    </div>
+</main>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
+<script src="dist/js/app.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '492133580953488',
+            xfbml: true,
+            version: 'v2.5'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if(d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+</html>
