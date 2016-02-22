@@ -127,9 +127,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 showErrorMessage: false,
                 errorMessageLink: '',
-                errorMessage: ''
+                errorMessage: '',
+
+                inComponentClick: false
             };
         },
+
 
         /**
          * Invoked once and cached when the class is created.
@@ -148,6 +151,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
             };
         },
+
 
         /**
          * Invoked once, only on the client (not on the server), immediately
@@ -168,6 +172,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         },
 
+
         /**
          * Invoked immediately before a component is unmounted from the DOM.
          *
@@ -181,6 +186,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             this._manageGlobalEventHandlers(nextProps);
         },
+
 
         /************************************************************************************************************/
         /*                                        Component Functions                                               */
@@ -208,6 +214,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 document.removeEventListener('click', _this.onClick_document);
             }
         },
+
 
         /************************************************************************************************************/
         /*                                        FB-Communication Functions                                        */
@@ -245,6 +252,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }, true);
         },
 
+
         /**
          * Load the user image
          * @private
@@ -258,6 +266,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 });
             });
         },
+
 
         /**
          * Get all albums from the logged in user
@@ -292,6 +301,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         },
 
+
         /**
          * Get photos from a given album
          *
@@ -317,6 +327,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         },
 
+
         /**
          * Get the data for a given photo by id
          *
@@ -329,6 +340,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             _this._FB_API('/' + photoId + '/picture', callback);
         },
+
 
         /**
          * Wrapper for the FB.api function to avoid unwanted errors
@@ -346,6 +358,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             FB.api(p1, p2, p3);
         },
 
+
         /************************************************************************************************************/
         /*                                         Event Handling Functions                                         */
         /************************************************************************************************************/
@@ -362,6 +375,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         },
 
+
         /**
          * Handle click onto document
          * Close Component if default is not prevented
@@ -369,12 +383,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * @param event
          */
         onClick_document: function onClick_document(event) {
-            if (event.defaultPrevented) {
+            if (event.defaultPrevented || this.state.inComponentClick) {
+                this.setState({
+                    inComponentClick: false
+                });
                 return;
             }
 
             this.onClick_cancel();
         },
+
 
         /**
          * Handle when the user clicks "close"
@@ -382,6 +400,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         onClick_cancel: function onClick_cancel() {
             this.props.onCancel();
         },
+
 
         /**
          * Handle when the user selects an image
@@ -407,6 +426,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         },
 
+
         /**
          * Handle when the user wants to see more photos of an album
          *
@@ -420,8 +440,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             //Increase the limit
             FB_albums[index].limit += MSFBPhotoSelector.ALBUM_PHOTOS_LIMIT * MSFBPhotoSelector.ALBUM_PHOTOS_ROWS_TO_ADD;
 
-            _this.setState({ FB_albums: FB_albums });
+            _this.setState({
+                FB_albums: FB_albums,
+                inComponentClick: true
+            });
         },
+
 
         /**
          * Display an error message
@@ -447,6 +471,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }, timeToShow || 4000);
             });
         },
+
 
         /************************************************************************************************************/
         /*                                        Render this awesome stuff                                         */

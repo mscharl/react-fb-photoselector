@@ -127,7 +127,9 @@
 
                 showErrorMessage: false,
                 errorMessageLink: '',
-                errorMessage: ''
+                errorMessage: '',
+
+                inComponentClick: false
             };
         },
 
@@ -375,7 +377,10 @@
          * @param event
          */
         onClick_document(event) {
-            if(event.defaultPrevented) {
+            if(event.defaultPrevented || this.state.inComponentClick) {
+                this.setState({
+                    inComponentClick: false
+                })
                 return
             }
 
@@ -424,7 +429,10 @@
             //Increase the limit
             FB_albums[index].limit += MSFBPhotoSelector.ALBUM_PHOTOS_LIMIT * MSFBPhotoSelector.ALBUM_PHOTOS_ROWS_TO_ADD
 
-            _this.setState({FB_albums});
+            _this.setState({
+                FB_albums,
+                inComponentClick: true
+            });
         },
 
 
