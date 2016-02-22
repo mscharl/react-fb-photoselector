@@ -61,7 +61,7 @@ gulp.task('build:css', () => {
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([
             autoprefixer({ browsers: ['last 2 versions'] }),
-            cssnano()
+            cssnano({ zindex: false })
         ]))
         .pipe(gulp.dest('dist'))
 });
