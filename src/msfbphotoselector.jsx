@@ -241,26 +241,15 @@
                 _this._FB_getUserImage();
             }
 
-            //Get the users AccessToken
-            FB.getLoginStatus(function(response) {
-                //Fail if not connected
-                if(response.status != 'connected') {
-                    // Prompt for the user to login
-                    FB.login(function(res) {
-                        if (res.authResponse) {
-                            initFBPlugin(res.authResponse.accessToken);
-                        } else {
-                            _this.props.onError(ERROR.CONNECTION_FAILED);
-                            _this.set_errorMessage(MSFBPhotoSelector.TEXTS.connection_failed);
-                        }
-                    });
+            // Get the users Access Token
+            FB.login(function (res) {
+                if (res.authResponse) {
+                    initFBPlugin(res.authResponse.accessToken);
+                } else {
+                    _this.props.onError(ERROR.CONNECTION_FAILED);
+                    _this.set_errorMessage(MSFBPhotoSelector.TEXTS.connection_failed);
                 }
-
-                //Load data when connected
-                else {
-                    initFBPlugin(response.authResponse.accessToken);
-                }
-            }, true);
+            }, { scope: 'user_photos' });
         },
 
         /**
