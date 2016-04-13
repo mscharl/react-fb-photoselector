@@ -232,22 +232,33 @@
                 throw new Error('FB-SDK was not found!')
             }
 
+            function initFBPlugin(accessToken) {
+                _this.setState({
+                    FB_accessToken: accessToken
+                });
+
+                _this._FB_getUserAlbums(finishedCallback);
+                _this._FB_getUserImage();
+            }
+
             //Get the users AccessToken
             FB.getLoginStatus(function(response) {
                 //Fail if not connected
                 if(response.status != 'connected') {
-                    _this.props.onError(ERROR.CONNECTION_FAILED);
-                    _this.set_errorMessage(MSFBPhotoSelector.TEXTS.connection_failed);
+                    // Prompt for the user to login
+                    FB.login(function(res) {
+                        if (res.authResponse) {
+                            initFBPlugin(res.authResponse.accessToken);
+                        } else {
+                            _this.props.onError(ERROR.CONNECTION_FAILED);
+                            _this.set_errorMessage(MSFBPhotoSelector.TEXTS.connection_failed);
+                        }
+                    });
                 }
 
                 //Load data when connected
                 else {
-                    _this.setState({
-                        FB_accessToken: response.authResponse.accessToken
-                    });
-
-                    _this._FB_getUserAlbums(finishedCallback);
-                    _this._FB_getUserImage();
+                    initFBPlugin(response.authResponse.accessToken);
                 }
             }, true);
         },
